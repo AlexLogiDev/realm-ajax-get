@@ -1,8 +1,16 @@
 <div id="info-client"></div>
 
 <script>
-    var realm = '${realm.displayName}';
-    console.log('realm: ', realm);
+    // realm ID
+    var realm = '${realm.name}';
+    console.log('realm.name: ', realm);
+
+    // info client url by realm 
+    var infoClientURL = 'https://my-json-server.typicode.com/AlexLogiDev/mock-json-data/realms?realm-name=';
+
+    // current info client
+    var currentInfoClientURL = infoClientURL.concat(realm);
+    console.log('currentInfoClientURL: ', currentInfoClientURL);
 
     function ajax_get(url, callback) {
         var xmlhttp = new XMLHttpRequest();
@@ -22,15 +30,11 @@
         xmlhttp.send();
     }
 
-    ajax_get('https://my-json-server.typicode.com/AlexLogiDev/mock-json-data/realms', function(data) {
-
+    ajax_get(currentInfoClientURL, function(data) {
         var infoClient = data;
-
-        for(var i = 0; i < infoClient.length; i++) { 
-            var html = "<h2>" + infoClient[i]["realm-name"] + "</h2>";
-            html += "<h3>" + infoClient[i]["info-client-header"] + "</h3>";
+        for(var i = 0; i < infoClient.length; i++) {
+            var html = "<h3>" + infoClient[i]["info-client-header"] + "</h3>";
             html += "<p>" + infoClient[i]["info-client-body"] + "</p>";
-
             document.getElementById("info-client").innerHTML = html;
         }
     });
